@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dev-dist/
+coverage/
+reports/
+playwright-report/
+test-results/
+.stryker-tmp/
+.wrangler/
+.dev.vars*
+!.dev.vars.example
+worker-configuration.d.ts
