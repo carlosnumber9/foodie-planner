@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "foodie-planner",
+  "main": "./src/server/worker.ts",
+  "compatibility_date": "2026-08-16",
+  "assets": {
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    }
+  },
+
+  // Add the binding only after the production EU D1 database exists and its
+  // real ID is known. Never omit database_id: Wrangler could provision a new
+  // database automatically.
+  // "d1_databases": [
+  //   {
+  //     "binding": "DB",
+  //     "database_name": "foodie-planner-production",
+  //     "database_id": "REPLACE_WITH_PRODUCTION_DATABASE_ID",
+  //     "migrations_dir": "db/migrations",
+  //     "remote": true
+  //   }
+  // ]
+}
