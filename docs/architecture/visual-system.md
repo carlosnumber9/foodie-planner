@@ -24,4 +24,4 @@ R1 has no recipe image uploads. Optional uploads and free storage are a post-R1 
 
 ## Navigation
 
-Recipes are the initial view. Mobile uses bottom navigation and desktop uses a sidebar with the same destinations: Recipes, Calendar, Inventory, Shopping, and More. History and Settings live under More.
+Recipes are the initial view. Mobile uses bottom navigation and desktop uses a sidebar with the same destinations: Recipes, Calendar, Inventory, Shopping, and More. Foods, History, and Settings live under More. Catalog maintenance happens through Codex, not app forms.

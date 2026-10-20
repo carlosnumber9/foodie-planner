@@ -2,6 +2,12 @@
 
 Foodie Planner organizes the household cycle connecting available food, recipes, cooking, prepared servings, shopping, and optional meal planning.
 
+## People
+
+**User**:
+The single person whose food, recipes, cooking, planning, and assessments Foodie Planner records. The product has no accounts, members, roles, or additional users.
+_Avoid_: Account, member
+
 ## Food and inventory
 
 **Food**:
@@ -27,8 +33,16 @@ _Avoid_: Missing food, pending product
 ## Recipes and cooking
 
 **Recipe**:
-A reusable definition of a dish through per-serving ingredients, method, and calculated nutrition data.
+A reusable definition of a dish with immutable revisions containing per-serving ingredients, method, and calculated nutrition data.
 _Avoid_: Dish, meal
+
+**Recipe revision**:
+An immutable accepted version of a recipe, identified within that recipe and retained by plans and history.
+_Avoid_: Overwritten recipe, latest recipe in history
+
+**Food revision**:
+An immutable accepted version of a food's descriptive and nutritional data referenced by recipe ingredients.
+_Avoid_: Mutable historical nutrition
 
 **Recipe ingredient**:
 The use of one food within one recipe, with a quantity per serving and a compatible measurement unit.

@@ -1,48 +1,23 @@
 # Operations
 
-## Diagnostic model
+## Local work
 
-Cloudflare Workers Logs and traces are the initial observability platform. Production diagnostics are read in the Cloudflare dashboard. Sentry is deferred until native telemetry proves insufficient, particularly for browser-only failures.
+Use the Node version in `.nvmrc`, run `npm ci`, then `npm run dev`. No environment secrets, database resources, or bindings are required. Development does not install a service worker; use `npm run build` and `npm run preview` to inspect the production PWA and offline behavior.
 
-Diagnostic logs are not durable domain history. Inventory movements, cooking events, consumption, and other user-visible facts belong in D1. Logs explain how an operation executed and why it failed.
+Use browser developer tools for local failures and IndexedDB inspection. Errors stay in the browser; no application diagnostics or activity are submitted to a server. Storage failures show a Spanish error and never report a successful save.
 
-## Structured logging
+## Build and publication
 
-Every server request receives an invocation log. Every state-changing command emits one structured completion event with success or failure. Unexpected failures include a separate error event and stack trace.
+`npm run build` validates and bundles app and accepted catalog together into `dist`. `wrangler.jsonc` retains the application name and configures `assets.directory` as `./dist` with `single-page-application` fallback; it has no Worker entry script, D1 binding, or secrets.
 
-Stable diagnostic fields include:
+Publication is separate from content acceptance. After the user requests publication, `npm run deploy` runs typecheck, lint, unit/component tests, build, and Wrangler deployment. Run browser and documentation checks when relevant before that command. `npx wrangler deploy --config wrangler.jsonc --dry-run --outdir /tmp/foodie-static` validates packaging without publishing.
 
-- `event`
-- `outcome`
-- `request_id`
-- `operation_id`
-- `route`
-- `duration_ms`
-- `status`
-- `error_code`
-- `entity_type`
-- opaque `entity_id`
+Existing Cloudflare Workers Builds may continue publishing approved pushes to `master`; the intended build is `npm ci`, checks, and `npm run build`, followed by `npx wrangler deploy --config wrangler.jsonc`. Repository changes do not configure the external build service. No external resources are provisioned or deleted as part of this transition.
 
-The client creates an operation ID for each command and sends it to the Worker. This correlates UI feedback, API handling, D1 work, and retries. Expected validation and conflict outcomes use an informational or warning severity; unexpected exceptions use error severity.
+## Offline and updates
 
-React error boundaries and global browser error handlers send sanitized diagnostics to `/api/diagnostics/client-errors`. The Worker records them in Workers Logs so they remain visible in the Cloudflare dashboard without Sentry.
+The first complete online load installs the service worker and precaches release assets, including catalog data bundled into JavaScript. Only a complete installed release is available offline. New versions wait for user activation. Save or discard drafts before updating; never clear IndexedDB as part of an app/cache update. Keep the production origin stable, because a new origin has different browser storage.
 
-Logs never contain recipe names, ingredient names, nutrition or wellbeing values, notes, email addresses, authorization data, request bodies, response bodies, or complete application state. Sensitive values must not appear in URLs because invocation logs include request URLs.
+Reloading and clearing the HTTP cache are distinct from deleting site data. IndexedDB has no remote recovery copy. The user accepts local loss; manual export/import is a future feature in the [roadmap](../roadmap.md).
 
-Initial trace sampling is complete because the application has one user and low traffic. Sampling and retention are revisited if volume or cost changes.
-
-R1 has no automatic application-error alerts. A visible application error provides a request identifier, which the user can inspect manually in the Cloudflare dashboard.
-
-## Recovery
-
-D1 Time Travel is always-on point-in-time recovery for the complete database. The free Workers tier retains seven days. A restore overwrites the live database at a selected timestamp or bookmark; it is not row-level undo or application history.
-
-Time Travel is the only recovery mechanism. No R2, local, third-party, or product export is required. The free tier's seven-day recovery window is an accepted risk; corruption or deletion discovered later may be unrecoverable.
-
-If a free-tier limit rejects an operation, the Worker fails without reporting success or applying a client-side optimistic result. The UI shows a clear error with its request identifier. The system never enables billing, changes provider, or queues an offline write automatically.
-
-## Sentry boundary
-
-Sentry groups errors, stack traces, releases, and related diagnostic context, and can alert on recurring failures. It does not replace logs, domain history, or backups.
-
-Sentry is not part of the initial stack. If later added, it primarily covers browser failures that Worker telemetry cannot see. Session Replay remains disabled, default PII collection remains off, and all events are scrubbed before transmission.
+To roll back, deploy a reviewed earlier static build. Verify compatibility with the local database version before rolling back; do not erase local activity to make an old release run.

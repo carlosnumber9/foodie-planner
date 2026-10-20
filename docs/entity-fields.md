@@ -1,6 +1,8 @@
 # Entity fields
 
-Names in this document are canonical English domain names. Visible labels are Spanish. Database names will use `snake_case` when the physical schema is defined.
+Names below are canonical English domain names. Visible labels are Spanish. This describes agreed records; [technical context](technical-context.md) identifies implemented capabilities. There is no authentication entity.
+
+Catalog references pin both `id` and `revision`. Food and recipe documents retain consecutive immutable `revisions`; recipes also have an `archived` flag. The [catalog schemas](../src/catalog/catalog.ts) are authoritative for JSON structure.
 
 ## Food
 
@@ -14,9 +16,9 @@ Names in this document are canonical English domain names. Visible labels are Sp
 - `carbohydrates`
 - `fat`
 - `source`: Ciqual or personal
-- optional source identifier and version
+- required source reference, version, and attribution
 
-`measurementType` cannot change. Foods have no archive or delete action in R1. Meaningfully different product nutrition creates a separate personal food.
+`measurementType` cannot change. Foods have no archive or delete action in R1. Meaningfully different product nutrition creates a separate personal food. Accepted corrections append revisions; existing references retain their earlier nutrition.
 
 ## Recipe
 
@@ -34,8 +36,8 @@ A recipe has no base serving count.
 
 ## RecipeIngredient
 
-- `recipe`
-- `food`
+- `recipe` reference with ID and revision
+- `food` reference with ID and revision
 - `amountPerServing`
 - `unit`
 - display order
@@ -44,7 +46,7 @@ The unit must belong to the food's measurement type.
 
 ## CookingEvent
 
-- `recipe`
+- `recipe` reference with ID and revision
 - `cookedAt`
 - `servingCount`
 - generated inventory movements
@@ -82,3 +84,7 @@ Calendar edits can change or remove the association. They never change `consumed
 - `energy`: low, normal, or high
 
 Assessment values are optional and presented as labels, not numeric scores.
+
+## Local settings and units
+
+Implemented settings contain an IANA `timeZone`. Browser-only units contain a `personal-` ID, code, symbol, Spanish name, measurement type, base-unit factor, and activation. Catalog unit activation is stored as a local override. The future export covers these records alongside every implemented activity store.

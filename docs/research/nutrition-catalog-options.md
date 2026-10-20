@@ -1,6 +1,6 @@
 # Nutrition catalog options
 
-Research date: 2026-08-16. Requirements: zero operating cost, Spanish-only interface, useful European foods, clear reuse rights, and a small D1 footprint.
+Research date: 2026-08-16. Requirements: zero operating cost, Spanish-only interface, useful European foods, clear reuse rights, and a small catalog. This source comparison predates the static architecture; see [ADR 0007](../adr/0007-versioned-catalog-local-activity.md). Source artifacts and attribution still require review before import.
 
 ## Decision
 

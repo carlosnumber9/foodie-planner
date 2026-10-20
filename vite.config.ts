@@ -1,9 +1,11 @@
-import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import packageJson from "./package.json";
+import { loadCatalogFiles } from "./scripts/catalog-files";
+
+loadCatalogFiles();
 
 export default defineConfig({
   define: {
@@ -15,7 +17,6 @@ export default defineConfig({
     VitePWA({
       registerType: "prompt",
       injectRegister: null,
-      devOptions: { enabled: true },
       includeAssets: ["app-icon-192.png", "app-icon-512.png"],
       manifest: {
         name: "Foodie Planner",
@@ -33,11 +34,9 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: "/index.html",
-        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [],
         cleanupOutdatedCaches: true,
       },
     }),
-    cloudflare(),
   ],
 });

@@ -1,4 +1,10 @@
+---
+status: superseded by ADR-0007
+---
+
 # Use Cloudflare as the application platform
+
+Historical decision. Runtime, persistence, access, and recovery portions are superseded by [ADR 0007](0007-versioned-catalog-local-activity.md); Cloudflare remains the static hosting provider.
 
 Foodie Planner will run as one Cloudflare Worker with static assets, D1, and Access restricted to one email. This provides synchronized relational data, atomic batches, managed access, and an expected $0 MVP without another Supabase project. EU D1 placement addresses data location; free D1 Time Travel is the only operational recovery mechanism.
 

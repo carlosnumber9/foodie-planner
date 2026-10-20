@@ -2,7 +2,7 @@
 
 Research date: 2026-08-16. Requirements: one user, macOS-first, occasional iPhone use, online-only MVP, synchronized relational data, minimal cost and maintenance, and no available free Supabase project.
 
-Decision outcome: accepted. See [ADR 0003](../adr/0003-cloudflare-application-platform.md).
+Historical research: runtime, database, authentication, and recovery recommendations below are superseded by [ADR 0007](../adr/0007-versioned-catalog-local-activity.md). Consult the current [stack](../architecture/stack.md) for implementation guidance.
 
 ## Recommendation
 

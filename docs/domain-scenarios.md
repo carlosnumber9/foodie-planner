@@ -32,7 +32,7 @@ The user removes a prepared serving. It disappears without a discard event, and 
 
 ## Edit a used recipe
 
-A cooked recipe needs changes. Editing creates a separate active recipe. The original remains active and retains its cooking, consumption, and assessment history.
+A cooked recipe needs changes. Codex proposes and the user accepts a new revision. The library shows the current revision; existing plans, cooking, consumption, and assessments retain the original reference and nutrition. Archiving removes the recipe from new selections without breaking earlier references.
 
 ## Fixed food measurement type
 
@@ -43,3 +43,15 @@ Tomato is defined as count and salt as mass. Every recipe, inventory holding, an
 The user records a cooking event and later discards the failed dish. `Undo cooking` removes the prepared servings. The user chooses to keep the ingredient deductions because the ingredients were physically used. If the cooking event was entered by mistake instead, the user can reverse the ingredient deductions.
 
 If any prepared serving from that event has already been consumed, the cooking event cannot be undone. Remaining servings can still be removed and inventory can be corrected manually.
+
+## Update the catalog while planning
+
+A plan references recipe revision 1, whose ingredients pin food revision 1. A new catalog release introduces food revision 2 and recipe revision 2. Existing plans still resolve revision 1; new selections use revision 2. No release resets IndexedDB.
+
+## Work without connectivity
+
+After the production app finishes its first online installation, disconnect and reopen a cached route. Catalog browsing and local settings still work without login or API calls. A failed storage write shows an error instead of success.
+
+## Future export and restore
+
+Export all personal state, clear site data, reopen online, and import the downloaded file. After confirming replacement, the same activity and exact catalog references are available. Reject an invalid or unsupported file without changing existing state. This scenario is pending the export/import roadmap feature.

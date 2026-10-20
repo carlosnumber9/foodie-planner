@@ -1,0 +1,52 @@
+[
+  {
+    "baseAmountPerUnit": 100,
+    "code": "g",
+    "id": "gram",
+    "isActive": true,
+    "isBuiltIn": true,
+    "measurementType": "mass",
+    "name": "Gramo",
+    "symbol": "g"
+  },
+  {
+    "baseAmountPerUnit": 100000,
+    "code": "kg",
+    "id": "kilogram",
+    "isActive": true,
+    "isBuiltIn": true,
+    "measurementType": "mass",
+    "name": "Kilogramo",
+    "symbol": "kg"
+  },
+  {
+    "baseAmountPerUnit": 100000,
+    "code": "l",
+    "id": "litre",
+    "isActive": true,
+    "isBuiltIn": true,
+    "measurementType": "volume",
+    "name": "Litro",
+    "symbol": "l"
+  },
+  {
+    "baseAmountPerUnit": 100,
+    "code": "ml",
+    "id": "millilitre",
+    "isActive": true,
+    "isBuiltIn": true,
+    "measurementType": "volume",
+    "name": "Mililitro",
+    "symbol": "ml"
+  },
+  {
+    "baseAmountPerUnit": 100,
+    "code": "unit",
+    "id": "unit",
+    "isActive": true,
+    "isBuiltIn": true,
+    "measurementType": "count",
+    "name": "Unidad",
+    "symbol": "ud"
+  }
+]

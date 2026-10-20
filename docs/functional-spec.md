@@ -1,6 +1,6 @@
 # Functional specification
 
-This document records agreed behavior. It does not yet define visual design, architecture, or technology.
+This document records agreed behavior, including pending capabilities. See [technical context](technical-context.md) for implementation status and [roadmap](roadmap.md) for delivery order.
 
 ## Recipe library
 
@@ -8,16 +8,16 @@ This document records agreed behavior. It does not yet define visual design, arc
 - A recipe ingredient references one food and stores its quantity per serving and chosen compatible unit.
 - Cooking quantities scale each ingredient's per-serving amount by the selected serving count, including decimals.
 - A recipe also stores optional preparation time, cooking time, and note.
-- An unused recipe can be edited in place.
-- Editing a used recipe creates a separate active recipe; history keeps the original.
+- Catalog edits append immutable revisions under the same recipe ID. Existing plans and history retain the exact selected revision.
+- Changing a food also appends a revision; existing recipe revisions keep their pinned food data.
 - Deleting a recipe archives it. Archived recipes preserve calendar and history references.
-- Recipes are created manually through a guided form and can be duplicated.
+- Recipes are proposed, documented, revised, and accepted through Codex using repository skills. The app only reads the catalog; acceptance and publication are separate actions.
 
 ## Measurements
 
 - Fixed measurement types are mass, volume, and count.
 - The app includes common measurement units.
-- Settings can activate, hide, or create units within a fixed type using a base-unit factor.
+- Settings can activate or hide catalog units locally and create personal units within a fixed type using a base-unit factor. Catalog recipes reference shared catalog units, not browser-only units.
 - Compatible conversions, such as grams and kilograms, are exact.
 - Every food has one immutable measurement type: mass, volume, or count.
 - The same real-world ingredient can have separate foods for different types, such as `Tomato (count)` and `Tomato (g)`.
@@ -107,7 +107,7 @@ This document records agreed behavior. It does not yet define visual design, arc
 
 - Recipes are the initial screen.
 - Primary destinations are Recipes, Calendar, Inventory, Shopping, and More.
-- More contains History and Settings.
+- More contains Foods, History, and Settings.
 - Mobile uses bottom navigation; desktop uses a sidebar.
 - Recipe filters are text and tags.
 - Food filters are text, category, and measurement type.
@@ -118,9 +118,25 @@ This document records agreed behavior. It does not yet define visual design, arc
 ## Preferences
 
 - Simple filters represent restrictions and tastes.
-- No assistant interprets preferences or proposes recipes.
+- No in-app assistant interprets preferences or proposes recipes; Codex authoring remains a separate workflow.
 
-## Connectivity
+## Ownership and access
 
-- The MVP requires an internet connection to read or change data.
-- Offline caching, offline reads, queued writes, and conflict resolution are outside MVP scope.
+- App and catalog are public static assets; there is no login or data API.
+- Accepted catalog foods and recipes live in Git and are published with the app.
+- Personal calendars, inventory, shopping, cooking, servings, consumption, assessments, settings, and personal units belong to this browser's IndexedDB.
+- No activity is synchronized to other devices, profiles, or origins. Local data loss is accepted.
+
+## Connectivity and updates
+
+- After an initial complete online load, the last installed app/catalog release supports offline reads and local writes.
+- A first visit without connectivity cannot load uncached content.
+- Updates activate only after confirmation and never discard unsaved drafts or reset personal storage.
+- A failed local write must not report success or leave a partly applied domain command.
+
+## Future manual export and import
+
+- Download a versioned JSON snapshot of all personal activity, including settings, personal units, activation overrides, and exact catalog references.
+- Import restores it after site-data deletion or transfers it to another browser/session/profile.
+- Validate everything before modifying data, confirm replacement, and restore atomically. Unsupported or invalid files leave existing data unchanged.
+- This is a future feature; no export/import or automatic backup exists in the foundation.

@@ -1,3 +1,0 @@
-# This file is an example only. Copy it to .dev.vars for interactive local development.
-APP_ENVIRONMENT=development
-LOCAL_USER_SUBJECT=local-foodie-planner-user

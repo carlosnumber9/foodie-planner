@@ -1,35 +1,18 @@
 # Quality strategy
 
-## Approach
+Tests verify observable behavior and domain invariants. Prefer table-driven cases when they improve readability; avoid tests that only repeat implementation structure or documentation wording.
 
-Development follows test-driven development. Tests express domain behavior before implementation and stay focused on observable outcomes rather than internal structure.
+## Layers
 
-Unit tests use table-driven testing through Vitest `it.each` or `test.each` whenever multiple cases share one behavior shape. A direct test remains preferable when parameterization would obscure intent or setup.
+- Vitest domain tests cover integer quantities, rounding, conversions, immutability, and nutrition.
+- Catalog tests cover empty catalogs, provenance, references, compatible units, deterministic serialization, and append-only evolution.
+- Repository tests use fake-indexeddb to exercise real IndexedDB semantics: reopen, atomic rollback, uniqueness, corruption, unavailable storage, and catalog replacement without resetting activity.
+- Testing Library covers public routes, read-only catalog views, local saves, failure feedback, and update protection for unsaved drafts.
+- Playwright serves a production build. Desktop Chromium and mobile WebKit cover navigation and local persistence; Chromium additionally covers service-worker offline reopening and release updates.
+- Stryker measures pure critical domain/application behavior, with a configured minimum score of 90%. It runs locally after critical domain changes and before R1 completion, outside ordinary deployment builds.
 
-Mutation testing measures whether tests detect meaningful logic changes. It complements coverage; it does not replace readable examples or exploratory testing.
+## Execution
 
-## Test layers
+Run `npm run typecheck`, `npm run lint`, `npm test`, and `npm run build` for implementation changes. Catalog validation runs during build and separately through `npm run catalog:check`. Run `npm run docs:check` after documentation changes and `npm run test:e2e` after browser, local persistence, or PWA changes.
 
-| Layer | Tooling | Scope |
-|---|---|---|
-| Domain unit tests | Vitest | Quantity arithmetic, conversion, recipe versioning, cooking, servings, expiry, and validation rules |
-| API and service tests | Vitest with mocked persistence | Hono handlers, validation, orchestration, success, and failure responses |
-| Component tests | Vitest and Testing Library | Complex form and interaction behavior |
-| Browser workflow tests | Playwright with mocked API responses | A small set of critical user interactions without a database |
-| Mutation tests | StrykerJS with the Vitest runner | Pure critical TypeScript domain and application logic |
-
-## Mutation boundaries
-
-Tests never connect to D1. Persistence behavior is represented by small repository interfaces and mocked at the application boundary. No local, ephemeral, staging, or test database is created.
-
-Mutation scope includes arithmetic, rounding, within-type unit conversion, expiry state, recipe versioning, and cook/consume transition rules. It excludes generated files, schema declarations, migrations, route wiring, visual styling, GSAP animation, and trivial mappings.
-
-## Execution policy
-
-- Every change runs type checking and relevant unit, mocked service, component, and browser tests.
-- Each completed critical domain block receives a local Stryker run during implementation.
-- A full configured mutation run executes before R1 is considered complete.
-- The configured Stryker mutation scope must achieve at least a 90% mutation score. `thresholds.break` is 90.
-- A surviving mutant triggers review of the test or the production code; it does not automatically justify a low-value assertion.
-
-Cloudflare Workers Builds runs ordinary checks and the application build on every push to `master`. Full mutation testing stays outside the deployment build to avoid unnecessary build time.
+Tests never connect to production or remote databases. Synthetic catalog examples belong only in tests; production food and recipe catalogs start empty. Browser fixtures use isolated profiles and temporary local databases. Future export/import must prove round-trip restoration after site-data deletion and no modification for invalid input.

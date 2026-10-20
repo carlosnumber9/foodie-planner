@@ -1,34 +1,27 @@
 # Product brief
 
-## Problem
+## Purpose
 
-Home cooking data is usually fragmented: available food, recipe quantities, shopping needs, cooking events, prepared servings, and meal outcomes. Foodie Planner connects that cycle in one simple personal web app.
+Foodie Planner connects a personal recipe library, available food, shopping, cooking, prepared servings, consumption, and optional meal planning. The app calculates quantities and nutrition deterministically; it does not generate menus or decide what to eat.
 
-## Proposition
+## User and ownership
 
-Foodie Planner is a deterministic record keeper. The user creates recipes, maintains inventory and shopping, records cooking and consumption, and optionally places recipes on a calendar. The app calculates quantities, explicit conversions, and nutrition; it does not recommend recipes, generate menus, or decide what to eat.
+One person primarily uses a Mac. Catalog foods and recipes are public JSON maintained in this repository through Codex. Codex may propose recipes when asked; only accepted content enters the catalog. The app itself only reads that catalog.
 
-## Initial user
-
-The first version serves one person and synchronizes data between macOS and iPhone. It has no shared households, roles, or collaboration permissions.
+Personal activity stays in the current browser's IndexedDB. There are no accounts, passwords, remote databases, data APIs, or synchronization between devices or browser profiles. Local data loss is accepted. A future manual export/import feature will support recovery and transfer.
 
 ## Principles
 
-1. The calendar is optional; recipes, inventory, shopping, and cooking work without it.
-2. Cooking and eating are separate facts. Cooking consumes ingredients and produces servings; eating consumes a prepared serving.
-3. The app informs and warns but does not block decisions or act for the user.
-4. Calculations are explainable. Each food uses one fixed measurement type, so cross-type estimates are unnecessary.
-5. Daily upkeep must fit within five minutes.
-6. Personal recipes are the only library; there is no assistant, recommendation engine, or web recipe import.
-7. The MVP requires a network connection for reads and writes.
-8. The interface is Spanish-only and does not prepare for future localization.
+- The calendar is optional; cooking and consumption are separate facts.
+- Inform and warn without deciding, blocking, or automatically changing shopping.
+- Keep calculations explainable, with one fixed measurement type per food.
+- Preserve original recipe and food revisions referenced by plans and history.
+- Support offline reads and local writes after a complete first online load.
+- Keep daily upkeep within five minutes and operating infrastructure minimal.
+- Use a Spanish-only interface; code and documentation use English.
 
-## Current exclusions
+## Exclusions
 
-- AI-generated recipes or menus.
-- Recommendations based on inventory, preferences, or goals.
-- Public or community recipe catalogs.
-- Automatic calendar planning.
-- Household collaboration.
-- Blocking based on nutrition goals, missing ingredients, or expiry.
-- Offline use in the MVP.
+Automatic menu planning, in-app AI recommendations, community contributions, household collaboration, remote activity storage, synchronization, automatic backups, and in-app catalog editing are outside the agreed scope. Importing web recipe content automatically is not an app capability; Codex can document a source supplied in chat.
+
+The [roadmap](roadmap.md) distinguishes the delivered foundation from future workflows.

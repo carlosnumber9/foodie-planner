@@ -1,12 +1,20 @@
 /** @type {import('@stryker-mutator/api/core').PartialStrykerOptions} */
 export default {
+  ignorePatterns: [
+    "**",
+    "!src/**",
+    "!tests/setup.ts",
+    "!tests/fixtures/**",
+    "!data/catalog/**",
+    "!package.json",
+    "!package-lock.json",
+    "!tsconfig.json",
+    "!vitest.config.ts",
+  ],
   mutate: [
     "src/domain/quantity.ts",
     "src/domain/measurement.ts",
     "src/domain/nutrition.ts",
-    "src/domain/food.ts",
-    "src/application/food-service.ts",
-    "src/application/measurement-unit-service.ts",
   ],
   testRunner: "vitest",
   vitest: {

@@ -1,53 +1,39 @@
 # Roadmap
 
-This is the accepted initial delivery order. Each phase should end with a usable, tested workflow rather than isolated screens.
+This document owns delivery order. The [technical context](technical-context.md) describes implemented behavior; the functional specification also includes pending workflows.
 
-## Phase 0: Definition
+## Foundation: static catalog and local activity
 
-- Complete functional and technical discovery.
-- Settle language, invariants, and edge cases.
-- Complete API, schema, library, recovery, testing, and observability decisions for the accepted Cloudflare and React stack.
-- Turn domain scenarios into acceptance criteria.
+- Replace Worker APIs, D1, and login with public static hosting.
+- Establish validated, revisioned JSON catalogs, read-only browsing, and Codex authoring skills; start without food or recipe content.
+- Establish IndexedDB settings, personal units, activation overrides, migrations, transactions, and explicit errors.
+- Deliver production offline caching and manual updates that protect drafts and personal activity.
+- Align documentation and agent instructions with the new ownership model.
 
-## Phase 1: Foundations
+## Inventory and shopping
 
-- Scaffold the React TypeScript SPA, Worker API, Vite integration, Wrangler configuration, D1, and Access.
-- Establish the protected `workers.dev` deployment and local development identity path.
-- Import and translate a curated set of a few hundred common ANSES Ciqual 2025 foods with attribution.
-- Implement food, nutrition, immutable food measurement types, and units.
-- Establish data model, migrations, validation, observability, and testing.
+Implement holdings, movements, corrections, optional batches/location/expiry, manual shopping, and purchase confirmation. Persist each complete domain command atomically in IndexedDB.
 
-## Phase 2: Inventory and shopping
+## Recipes and cooking
 
-- Implement holdings, movements, corrections, optional batches, location, and expiry.
-- Implement manual shopping and purchase confirmation into inventory.
-- Validate within-type unit conversions.
+Populate foods from reviewed Ciqual sources and labels through the catalog skills. Add accepted recipes, scaling, cooking deductions, prepared servings, assignment, consumption, removal, and expiry warnings. Preserve revision references throughout.
 
-## Phase 3: Recipes and cooking
+## Optional calendar
 
-- Implement recipe scaling, duplication, archival, and post-use immutability.
-- Implement cooking, ingredient subtraction, and prepared serving production.
-- Implement grouping, assignment, consumption, removal, and expiry warnings.
+Implement meal slots, scheduling with serving counts, explicit prepared-serving assignments, missing-food warnings, and movement/deletion rules. Plans keep their selected recipe revision until explicitly replaced.
 
-## Phase 4: Optional calendar
+## Tracking and hardening
 
-- Implement configurable meal slots and recipe scheduling.
-- Link prepared servings explicitly.
-- Warn about missing ingredients when scheduling and on the planned day without changing shopping.
+Implement informational nutrition goals, assessments, and chronological history. Verify accessibility, reduced motion, storage failure feedback, update continuity, and daily upkeep time. Complete critical mutation testing before R1 delivery.
 
-## Phase 5: Tracking
+## Future feature: manual export and import
 
-- Implement informational nutrition goals and daily totals.
-- Implement culinary and wellbeing assessments.
-- Implement searchable cooking and consumption history.
+Download a versioned JSON file containing all personal state that can be lost from browser storage: calendars, inventory, shopping, cooking events, prepared servings, consumptions, assessments, settings, personal units, and activation overrides. Preserve exact catalog revision references. Restore that file after clearing site data or transfer it to another session, browser, or profile.
 
-## Phase 6: Hardening
+Validate the whole file and references before changing state. Initial import replaces local state only after confirmation and commits atomically; it does not merge automatically. Test export, site-data deletion, and import for equivalent restored state. Invalid or unsupported files must leave existing data untouched.
 
-- Review mobile and desktop accessibility, especially icon hover, tap, and screen-reader behavior.
-- Verify the D1 Time Travel recovery runbook.
-- Measure daily upkeep and simplify workflows exceeding five minutes.
+This feature is not implemented in the foundation. There is no automatic backup or device synchronization.
 
-## Post-R1 candidates
+## Other later candidates
 
-- Evaluate optional recipe image uploads and their free storage requirements.
-- Evaluate aggregate statistics and charts after enough personal history exists.
+Optional recipe imagery and aggregate statistics remain candidates, not accepted implementation requirements. No image storage service is introduced by this transition.
